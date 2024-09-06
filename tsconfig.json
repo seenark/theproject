@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2020",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    // Bundler mode
+    "paths": {
+      "@cmd/*": ["src/commands/*"],
+      "@libs/*": ["src/libs/*"],
+      "@templates/*": ["src/templates/*"],
+      "@services/*": ["src/services/*"],
+      "@prompts/*": ["src/prompts/*"]
+    },
+    // Best practices
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noEmit": true,
+    "outDir": "dist",
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "sourceMap": false,
+    "esModuleInterop": true
+  }
+}
