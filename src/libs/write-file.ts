@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
-import type { Template } from "@lib/types";
 import { Effect } from "effect";
 import { TaggedError } from "effect/Data";
+import type { Template } from "./types";
 
 export class WriteFileError extends TaggedError("WriteFileError")<{ error: unknown }> {
   static new = (error: unknown) => new WriteFileError({ error });

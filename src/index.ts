@@ -9,6 +9,7 @@ import { EslintLayer } from "@services/typescript-tools/eslint";
 import { EslintOfficialLayer } from "@services/typescript-tools/eslint/official";
 import { EslintAntfuLayer } from "@services/typescript-tools/eslint/antfu";
 import { EslintCommonLayer } from "@services/typescript-tools/eslint/commons";
+import { TypescriptToolsCommonLayer } from "@services/typescript-tools/common";
 import { run } from "./cli";
 import { PromptLayer } from "./prompts";
 
@@ -20,6 +21,7 @@ const eslintLive = EslintLayer.Live.pipe(
 const tsToolsLive = TypescriptToolsLayer.Live.pipe(
   Layer.provide(BiomeLayer.Live),
   Layer.provide(eslintLive),
+  Layer.provide(TypescriptToolsCommonLayer.Live),
 );
 
 const mainLive = Layer.mergeAll(NodeContext.layer, MiseLayer.Live, tsToolsLive, PackageManagerLayer.Live, ShellLayer.Live, PromptLayer.Live);

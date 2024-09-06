@@ -1,6 +1,6 @@
 import { FileSystem } from "@effect/platform/FileSystem";
 import { writeFileToPath } from "@libs/write-file";
-import { shellCommand, ShellLayer } from "@services/shell";
+import { ShellLayer, shellCommand } from "@services/shell";
 import * as JsMiseTemplate from "@templates/development-environment/mise";
 import { Console, Effect, pipe } from "effect";
 import { red } from "kolorist";
@@ -27,11 +27,13 @@ export function createMiseNodeFromTemplate() {
 }
 
 const packages = [
-  '"nodejs@latest"', '"npm:@antfu/ni@latest"', '"npm:corepack@latest"'
-] as const
+  "\"nodejs@latest\"",
+  "\"npm:@antfu/ni@latest\"",
+  "\"npm:corepack@latest\"",
+] as const;
 
 export const createMiseNode = Effect.all({
   shell: ShellLayer,
 }).pipe(
-  Effect.flatMap(({ shell }) => shell.execa("mise use", packages))
-)
+  Effect.flatMap(({ shell }) => shell.execa("mise use", [...packages])),
+);
