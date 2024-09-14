@@ -10,7 +10,7 @@ export const installCommands = {
   bun: `bunx ${base}@latest` as const,
 };
 
-const getInstallCommand = Match.type<PackageManager>().pipe(
+export const getInstallCommand = Match.type<PackageManager>().pipe(
   Match.when("npm", () => installCommands.npm),
   Match.when("pnpm", () => installCommands.pnpm),
   Match.when("yarn", () => installCommands.yarn),

@@ -7,26 +7,26 @@ import * as JsMiseTemplate from "@templates/development-environment/mise";
 import { Console, Effect, pipe } from "effect";
 import { red } from "kolorist";
 
-export function createMiseBunFromTemplate(): Effect.Effect<void, PlatformError | WriteFileError, FileSystem> {
-  const filename = ".mise.toml";
-  return Effect.all({
-    filename: Effect.succeed(filename),
-    fs: FileSystem,
-  }).pipe(
-    Effect.flatMap(({ fs, filename }) => fs.exists(filename)),
-    Effect.map(d => d),
-    Effect.flatMap(
-      Effect.if({
-        onTrue: () => pipe(`file ${filename} already exists`, red, Console.log),
-        onFalse: () =>
-          writeFileToPath(JsMiseTemplate.template("bun"))(filename),
-      }),
-    ),
-  );
-}
+// export function createMiseBunFromTemplate(): Effect.Effect<void, PlatformError | WriteFileError, FileSystem> {
+//   const filename = ".mise.toml";
+//   return Effect.all({
+//     filename: Effect.succeed(filename),
+//     fs: FileSystem,
+//   }).pipe(
+//     Effect.flatMap(({ fs, filename }) => fs.exists(filename)),
+//     Effect.map(d => d),
+//     Effect.flatMap(
+//       Effect.if({
+//         onTrue: () => pipe(`file ${filename} already exists`, red, Console.log),
+//         onFalse: () =>
+//           writeFileToPath(JsMiseTemplate.template("bun"))(filename),
+//       }),
+//     ),
+//   );
+// }
 
 export const createMiseBun = Effect.all({
   shellService: ShellLayer,
 }).pipe(
-  Effect.flatMap(({ shellService }) => shellService.execa("mise use", ["bun@latest"]))
-)
+  Effect.flatMap(({ shellService }) => shellService.execa("mise use", ["bun@latest"])),
+);

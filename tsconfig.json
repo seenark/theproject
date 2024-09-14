@@ -1,16 +1,29 @@
 {
   "compilerOptions": {
     "target": "ES2022",
+    "baseUrl": ".",
     "module": "ES2020",
     "moduleResolution": "bundler",
-    "baseUrl": ".",
     // Bundler mode
     "paths": {
-      "@cmd/*": ["src/commands/*"],
-      "@libs/*": ["src/libs/*"],
-      "@templates/*": ["src/templates/*"],
-      "@services/*": ["src/services/*"],
-      "@prompts/*": ["src/prompts/*"]
+      "@cmd/*": [
+        "src/commands/*"
+      ],
+      "@libs/*": [
+        "src/libs/*"
+      ],
+      "@templates/*": [
+        "src/templates/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@prompts/*": [
+        "src/prompts/*"
+      ],
+      "@test/*": [
+        "test/*"
+      ]
     },
     // Best practices
     "strict": true,
@@ -20,12 +33,12 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "declaration": false,
     "noEmit": true,
     "outDir": "dist",
-    "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
-    "declaration": false,
     "sourceMap": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
   }
 }

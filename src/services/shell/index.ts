@@ -1,9 +1,6 @@
-import { spawn } from "node:child_process";
-import { Context, Effect, Layer, pipe } from "effect";
+import { Context, Effect, Layer } from "effect";
 import { TaggedError } from "effect/Data";
 import { execa } from "execa";
-import { red } from "kolorist";
-import { $ } from "zx";
 
 export class ShellCommandFailed extends TaggedError("ShellCommandFailed")<{ command?: string; error: unknown }> {
   static new = (command?: string) => <E>(error: E): ShellCommandFailed => new ShellCommandFailed({ command, error });
@@ -13,21 +10,21 @@ export class ExecaFailed extends TaggedError("ExecaFailed")<{ command?: string; 
   static new = (command?: string) => <E>(error: E): ExecaFailed => new ExecaFailed({ command, error });
 }
 
-export function shellCommand(command: string, args: string[] = []) {
-  return Effect.async<void, ShellCommandFailed, never>((resume) => {
-    const { exitCode } = spawn(command, args, { stdio: "inherit", shell: true }).on("close", () => {
-      if (exitCode !== null) {
-        pipe(
-          red("do command Error"),
-          ShellCommandFailed.new(`${command} ${args.join(" ")}`),
-          Effect.fail,
-          resume,
-        );
-      }
-      pipe(Effect.void, resume);
-    });
-  });
-}
+// export function shellCommand(command: string, args: string[] = []) {
+//   return Effect.async<void, ShellCommandFailed, never>((resume) => {
+//     const { exitCode } = spawn(command, args, { stdio: "inherit", shell: true }).on("close", () => {
+//       if (exitCode !== null) {
+//         pipe(
+//           red("do command Error"),
+//           ShellCommandFailed.new(`${command} ${args.join(" ")}`),
+//           Effect.fail,
+//           resume,
+//         );
+//       }
+//       pipe(Effect.void, resume);
+//     });
+//   });
+// }
 
 export function shellExeca(command: string, args: string[] = []) {
   return Effect.tryPromise({
@@ -49,16 +46,16 @@ export function shellExeca(command: string, args: string[] = []) {
   );
 }
 
-export function zxCommand(command: string, args: string[] = []) {
-  const cmd = `${command} ${args}`;
-  return Effect.tryPromise({
-    try: async () => {
-      const { stdout } = await $`mise ls`;
-      return stdout;
-    },
-    catch: ShellCommandFailed.new(cmd),
-  });
-}
+// export function zxCommand(command: string, args: string[] = []) {
+//   const cmd = `${command} ${args}`;
+//   return Effect.tryPromise({
+//     try: async () => {
+//       const { stdout } = await $`mise ls`;
+//       return stdout;
+//     },
+//     catch: ShellCommandFailed.new(cmd),
+//   });
+// }
 
 type ShellService = {
   execa: typeof shellExeca;
@@ -68,4 +65,6 @@ export class ShellLayer extends Context.Tag("services/Shell")<ShellLayer, ShellS
   static Live = Layer.succeed(this, {
     execa: shellExeca,
   });
+
+  static ExecaFailed = ExecaFailed.new;
 }

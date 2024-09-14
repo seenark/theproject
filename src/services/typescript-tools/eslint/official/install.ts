@@ -1,8 +1,8 @@
 import type { PackageManager } from "@services/package-manager";
-import { shellExeca } from "@services/shell";
-import { Match, pipe } from "effect";
+import { ShellLayer, shellExeca } from "@services/shell";
+import { Effect, Match, pipe } from "effect";
 
-const getInstallCommand = Match.type<PackageManager>().pipe(
+export const getInstallCommand = Match.type<PackageManager>().pipe(
   Match.when("npm", () => "npm init @eslint/config@latest" as const),
   Match.when("yarn", () => "yarn create @eslint/config" as const),
   Match.when("pnpm", () => "pnpm create @eslint/config@latest" as const),
@@ -12,7 +12,11 @@ const getInstallCommand = Match.type<PackageManager>().pipe(
 
 type InstallCommand = ReturnType<typeof getInstallCommand>;
 
-const install = (installCommand: InstallCommand) => shellExeca(installCommand);
+function install(installCommand: InstallCommand) {
+  return ShellLayer.pipe(
+    Effect.flatMap(({ execa }) => execa(installCommand)),
+  );
+}
 
 export function installUsingPackageManager(packageManager: PackageManager) {
   return pipe(

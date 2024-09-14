@@ -44,7 +44,9 @@ function uninstall(PackageManager: PackageManager) {
   );
 }
 
-const make = {
+export const make = {
+  getInstallCommand,
+  getUnInstallCommand,
   install,
   uninstall,
 };

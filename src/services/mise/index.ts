@@ -5,8 +5,7 @@ import { createMiseBun } from "./bun";
 import { createMiseGo } from "./go";
 import { createMiseNode } from "./node";
 
-type MiseService = {
-  // bun: Effect.Effect<void, PlatformError | WriteFileError, FileSystem>;
+export type MiseService = {
   bun: Effect.Effect<void, ShellCommandFailed | ExecaFailed, ShellLayer>;
   node: Effect.Effect<void, ShellCommandFailed | ExecaFailed, ShellLayer>;
   go: Effect.Effect<void, ShellCommandFailed | ExecaFailed, ShellLayer>;

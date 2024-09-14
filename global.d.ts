@@ -1,4 +1,4 @@
-interface Env {}
+type Env = {};
 
 declare global {
   namespace NodeJS {

@@ -1,5 +1,5 @@
 import { Context, Effect, Layer } from "effect";
-import { BiomeLayer, type BiomeService, biomeServices } from "./biome";
+import { BiomeLayer, type BiomeService } from "./biome";
 import { EslintLayer, type EslintService } from "./eslint";
 import { TypescriptToolsCommonLayer, type TypescriptToolsCommonService } from "./common";
 
